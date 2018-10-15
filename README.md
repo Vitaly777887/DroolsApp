@@ -1,15 +1,3 @@
-# Spring Boot Hello World Example with Thymeleaf
+## Тема курсовой "Разработка ЭС с помощью Drools для конфигурации ИТ-инфраструктуры Компании"
 
-## Guide
-https://hellokoding.com/spring-boot-hello-world-example-with-thymeleaf/
-
-## What you'll need
-- JDK 1.7 or later
-- Maven 3 or later
-
-## Stack
-- Spring Boot
-- Java
-
-## Run
-`mvn spring-boot:run`
+### Версия Drools 5.4.0

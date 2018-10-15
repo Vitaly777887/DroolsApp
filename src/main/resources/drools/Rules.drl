@@ -1,0 +1,133 @@
+package drools;
+import org.chuzhinov.ItemCompany;
+import org.chuzhinov.enums.COMPANYTYPE;
+import org.chuzhinov.enums.SAN
+import org.chuzhinov.enums.COMPANYSIZE
+dialect  "java"
+
+
+rule "SizeCompanyRule"
+    when
+    item : ItemCompany()
+    then
+    if(item.getCountPeople()<50) {
+       item.setCompanysize(COMPANYSIZE.SMALL);
+    }
+    if(item.getCountPeople()>=50 && item.getCountPeople()<150) {
+       item.setCompanysize(COMPANYSIZE.MEDIUM);
+    }
+    if(item.getCountPeople()>=150 && item.getCountPeople()<500) {
+       item.setCompanysize(COMPANYSIZE.BIG);
+    }
+    if(item.getCountPeople()>=500) {
+       item.setCompanysize(COMPANYSIZE.VERYBIG);
+    }
+
+end
+
+rule "TrafficRule"
+    when
+    item : ItemCompany()
+    then
+    item.setInternetTraffic(120 * item.getCountPeople());
+
+end
+
+rule "TrafficByCompanyTypeRule"
+    when
+    item : ItemCompany( item.getCompanytype()== COMPANYTYPE.provision_of_services || item.getCompanytype() == COMPANYTYPE.sale_of_equipment)
+    then
+    int internetTraffic = item.getInternetTraffic();
+    item.setInternetTraffic(internetTraffic*3);
+end
+
+rule "PrinterRule"
+    when item : ItemCompany()
+    then
+    int countPeople = item.getCountPeople();
+    item.setCountPrinters(1+ countPeople/10);
+end
+
+rule "PrinterByCompanyTypeRule"
+    when item : ItemCompany(item.getCompanytype()==COMPANYTYPE.sale_of_equipment)
+    then
+    item.setCountPrinters(item.getCountPrinters()*2);
+end
+
+rule "PrinterByBudgetRule"
+    when item : ItemCompany(item.getBudget()>2000000)
+    then
+
+    item.setCountPrinters(item.getCountPrinters()*3/2);
+end
+
+rule "MemorySizeForSanRule"
+    when item : ItemCompany()
+    then
+    item.setMemorySizeForSan(item.getInternetTraffic() * item.getCountComp());
+end
+
+rule "RamByCompanyTypeRule"
+    when item : ItemCompany(item.getCompanytype() == COMPANYTYPE.provision_of_services || item.getCompanytype() == COMPANYTYPE.software_development )
+    then
+    item.setRAM(6);
+end
+
+rule "RamByCompanyTypeRule2"
+    when item : ItemCompany(item.getCompanytype() == COMPANYTYPE.sale_of_equipment || item.getCompanytype() == COMPANYTYPE.public_catering_network )
+    then
+    item.setRAM(4);
+end
+
+rule "CountCompByCompanyTypeRule"
+    when item : ItemCompany(item.getCompanytype() != COMPANYTYPE.public_catering_network)
+    then
+    item.setCountComp(item.getCountPeople()*12/10);
+end
+
+rule "CountCompByCompanyTypeRule2"
+    when item : ItemCompany(item.getCompanytype() == COMPANYTYPE.public_catering_network)
+    then
+    item.setCountComp(item.getCountPeople()/3 +2);
+end
+
+rule "HaveSiteRule"
+    when item : ItemCompany(item.getCompanysize()==COMPANYSIZE.BIG ||
+                item.getCompanysize()==COMPANYSIZE.VERYBIG ||
+                item.getCompanytype() == COMPANYTYPE.sale_of_equipment ||
+                item.getCompanytype() == COMPANYTYPE.provision_of_services)
+    then
+    item.setHaveSite(true);
+end
+
+rule "HaveErpRule"
+    when item : ItemCompany(item.getCompanysize()==COMPANYSIZE.BIG ||
+                item.getCompanysize()==COMPANYSIZE.VERYBIG ||
+                item.getCompanytype() == COMPANYTYPE.software_development)
+    then
+    item.setHaveErpSystem(true);
+end
+
+rule "SanTypeRule"
+    when item : ItemCompany(item.getCompanytype() != COMPANYTYPE.public_catering_network)
+    then
+    item.setSan(SAN.NAS);
+end
+
+rule "SanTypeRule2"
+    when item : ItemCompany(item.getCompanytype() == COMPANYTYPE.public_catering_network)
+    then
+    item.setSan(SAN.DAS);
+end
+
+rule "SanSizeRule1"
+    when item : ItemCompany(item.getCompanytype() == COMPANYTYPE.public_catering_network)
+    then
+    item.setMemorySizeForSan(item.getCountComp()*100);
+end
+
+rule "SanSizeRule2"
+    when item : ItemCompany(item.getCompanytype() != COMPANYTYPE.public_catering_network)
+    then
+    item.setMemorySizeForSan(item.getCountComp()*1000);
+end

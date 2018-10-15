@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Главная</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+</head>
+<body style="background-color:#1e214b ; ">
+
+<div class="container"
+     style="background-color: #009edf ;display:flex; justify-content: center; margin-top: 10%; width: 60%">
+    <div class="row main-form">
+
+        <form th:action="@{/result}" th:object="${company}" method="post">
+            <div class="form-group">
+                <label for="countPeople" class="cols-sm-2 control-label">Колличество сотрудников</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <input type="number" class="form-control" th:field="*{countPeople}" id="countPeople"/>
+                        <td th:if="${#fields.hasErrors('countPeople')}" th:errors="*{countPeople}">Error</td>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="companytype" class="cols-sm-2 control-label">Сфера предоставления услуг компании</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <select id="companytype" th:field="*{companytype}">
+                            <!--/*@thymesVar id="itemCompany" type="org.chuzhinov.enums.COMPANYTYPE"*/-->
+                            <option th:each="itemCompany : ${T(org.chuzhinov.enums.COMPANYTYPE).values()}"
+                                    th:value="${itemCompany}"
+                                    th:text="${itemCompany.displayText()}">
+                            </option>
+                            <td th:if="${#fields.hasErrors('companytype')}" th:errors="*{companytype}">Error</td>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="budget" class="cols-sm-2 control-label">Бюджет компании руб.</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <input type="number" th:field="*{budget}" class="form-control" name="budget" id="budget"/>
+                        <td th:if="${#fields.hasErrors('budget')}" th:errors="*{budget}">Error</td>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <button type="submit" id="button" class="btn btn-primary btn-lg btn-block login-button">Рассчитать
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

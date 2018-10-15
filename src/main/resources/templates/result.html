@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Рекомендованная IT-инфраструктура компании</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+</head>
+<body style="background-color:#1e214b ; ">
+
+<div class="container"
+     style="background-color: #009edf ;display:flex; justify-content: center; margin-top: 10%;  width: 60%">
+
+    <div class="row main-form">
+
+        <h2>Конфигурация IT-инфрайструктуры вашей компании</h2>
+        <h4 th:text="'Количество сотрудников: '+${company.countPeople}"></h4>
+        <h4 th:text="'Сфера предоставления услуг компании: '+${company.companytype.displayText()}"></h4>
+        <h4 th:text="'Бюджет компании руб. : '+${company.budget}"></h4>
+        <h4 th:text="'Размер компании: '+${company.companysize.displayText()}"></h4>
+        <h4 th:text="'Количество компьютеров: '+${company.countComp}"></h4>
+        <h4 th:text="'Количесвто принтеров: '+${company.countPrinters}"></h4>
+        <h4 th:text="'Размер памяти для компьютера гб.: '+${company.RAM}"></h4>
+        <h4 th:text="'Интернет-трафик гб. : '+${company.internetTraffic}"></h4>
+        <h4 th:text="'Тип хранилища: '+${company.san.displayText()}"></h4>
+        <h4 th:text="'Размер хранилища гб. :'+${company.memorySizeForSan}"></h4>
+
+        <h4 th:if="${company.haveSite}" th:text="'Наличие сайта'"></h4>
+        <h4 th:if="${company.havePabx}" th:text="'Наличие автоматической телефонной станции'"></h4>
+        <h4 th:if="${company.haveErpSystem}" th:text="'Наличие ERP-системы'"></h4>
+
+    </div>
+</div>
+
+</body>
+</html>
